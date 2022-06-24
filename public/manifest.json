@@ -3,7 +3,24 @@
   "version": "0.1.0",
   "name": "Omniplex extension",
   "description": "Omniplex extension",
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs"],
+  "web_accessible_resources" : [
+    {
+      "resources": ["modal.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["./content.js"],
+      "all_frames": false,
+      "run_at": "document_end"
+    }
+  ],
   "action": {
     "default_icon": {
       "16": "logo192.png"

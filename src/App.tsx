@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react'
 import LoginForm from './components/LoginForm/LoginForm'
 import UserProfile from './components/UserProfile/UserProfile'
 import { isLoginSuccess } from './components/LoginForm/LoginForm.utils'
+import { setItem, clearItems } from './helper';
 
 function App() {
   const [isLogin, setIslogin] = useState(false)
-  const [userName, setUserName] = useState<string | null>(null)
+  const [userName, setUserName] = useState<any>('')
 
   const loginCallback = (name: string, password: string): boolean => {
     if (isLoginSuccess(name, password)) {
       localStorage.setItem('name', name)
+      setItem(name)
       setIslogin(true)
       setUserName(name)
       return true
@@ -19,14 +21,17 @@ function App() {
   };
 
   const logoutCallback = () => {
-    localStorage.setItem('name', '')
+    localStorage.clear()
+    clearItems()
     setIslogin(false)
     setUserName('')
   }
 
   useEffect(() => {
-    const userName = localStorage.getItem('name')
-    if (localStorage.name) {
+    const userName = localStorage.getItem('name') || ''
+
+    if (userName.length > 0) {
+      setItem(userName)
       setIslogin(true)
       setUserName(userName)
     }
@@ -49,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default App
