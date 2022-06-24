@@ -1,11 +1,45 @@
+import React, { useState } from 'react'
 import { 
   Label,
   TextInput,
 } from 'flowbite-react'
+import Button from '../common/Button/Button'
 
-import Button from './common/Button/Button'
+interface LoginFormProps {
+  loginCallback: (name: string, password: string) => boolean;
+}
 
-const LoginForm = () => {
+const LoginForm = (props: LoginFormProps) => {
+  const {
+    loginCallback,
+  } = props;
+
+  const [name, setName] = useState('')
+  const [isNameEmpty, setIsNameEmpty] = useState(false)
+  const [password, setPassword] = useState('')
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false)
+  const [isLoginSuccess, setIsLoginSuccess] = useState(true)
+
+  const resetEmptyStatus = () => {
+    setIsNameEmpty(false)
+    setIsPasswordEmpty(false)
+    setIsLoginSuccess(true)
+  }
+
+  const loginHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    resetEmptyStatus()
+
+    if (!name || !password) {
+      if (!name) setIsNameEmpty(true)
+      if (!password) setIsPasswordEmpty(true)
+      return;
+    }
+
+    const login = loginCallback(name, password)
+    setIsLoginSuccess(login)
+  }
+
   return (
     <div className="p-2">
       <form className="flex flex-col gap-4">
@@ -20,7 +54,10 @@ const LoginForm = () => {
             id="name"
             type="text"
             placeholder="name"
-            required={true}
+            required
+            color={isNameEmpty || !isLoginSuccess ? 'red' : 'base'}
+            helperText={isNameEmpty || !isLoginSuccess ? <React.Fragment><span className="font-medium">Invalid Login</span></React.Fragment> : ''}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
         <div>
@@ -33,10 +70,17 @@ const LoginForm = () => {
           <TextInput
             id="password1"
             type="password"
-            required={true}
+            placeholder="password"
+            required
+            color={isPasswordEmpty || !isLoginSuccess ? 'red' : 'base'}
+            helperText={isPasswordEmpty || !isLoginSuccess ? <React.Fragment><span className="font-medium">Invalid Login</span></React.Fragment> : ''}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button className="text-white bg-orange-400 hover:bg-orange-400/90">
+        <Button 
+          className="text-white bg-orange-400 hover:bg-orange-400/90" 
+          onClick={loginHandler}
+        >
           Login
         </Button>
 
