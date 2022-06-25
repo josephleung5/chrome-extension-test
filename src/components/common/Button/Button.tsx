@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   className?: string;
@@ -13,7 +13,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => 
     className,
     children,
     onClick,
-  } = props;
+  } = props
 
   return (
     <button onClick={onClick} ref={ref} className={`${defaultStyling} ${className}`}>

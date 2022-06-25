@@ -2,10 +2,14 @@
 
 export const setItem = (name: any) => {
   localStorage.setItem('name', name)
-  chrome.storage.sync.set({'name': name}, ()=>{})
+  if (process.env.NODE_ENV !== 'development') {
+    chrome.storage.sync.set({'name': name}, ()=>{})
+  }
 }
 
 export const clearItems = () => {
   localStorage.clear()
-  chrome.storage.sync.clear()
+  if (process.env.NODE_ENV !== 'development') {
+    chrome.storage.sync.clear()
+  }
 }

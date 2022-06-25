@@ -6,13 +6,13 @@ import {
 import Button from '../common/Button/Button'
 
 interface LoginFormProps {
-  loginCallback: (name: string, password: string) => boolean;
+  loginCallback: (name: string, password: string) => boolean
 }
 
 const LoginForm = (props: LoginFormProps) => {
   const {
     loginCallback,
-  } = props;
+  } = props
 
   const [name, setName] = useState('')
   const [isNameEmpty, setIsNameEmpty] = useState(false)
@@ -33,7 +33,7 @@ const LoginForm = (props: LoginFormProps) => {
     if (!name || !password) {
       if (!name) setIsNameEmpty(true)
       if (!password) setIsPasswordEmpty(true)
-      return;
+      return
     }
 
     const login = loginCallback(name, password)
